@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QThread>
 #include <QDebug>
+#include <QTimer>
+#include <QProcess>
 
 class NetPortWatcher : public QThread
 {
@@ -17,6 +19,7 @@ protected:
 signals:
 
 public slots:
+    void timerWatchNetPort();
 };
 
 #endif // NETPORTWATCHER_H
