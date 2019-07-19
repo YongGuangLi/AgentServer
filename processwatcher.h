@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDebug>
 #include <QThread>
+#include <QProcess>
+#include <QTimer>
 
 class ProcessWatcher : public QThread
 {
@@ -16,6 +18,7 @@ protected:
 signals:
 
 public slots:
+    void timerWatchProcess();
 };
 
 #endif // PROCESSWATCHER_H
