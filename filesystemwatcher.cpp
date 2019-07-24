@@ -5,7 +5,9 @@ FileSystemWatcher* FileSystemWatcher::m_pInstance = NULL;
 FileSystemWatcher::FileSystemWatcher(QObject *parent)
     : QObject(parent)
 {
-
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(timerWatchFile()));
+    timer->start(1000);
 }
 
 // 监控文件或目录
@@ -31,7 +33,11 @@ void FileSystemWatcher::addWatchPath(QString path)
     if (file.isDir())
     {
         const QDir dirw(path);
-        m_pInstance->m_currentContentsMap[path] = dirw.entryInfoList();
+        m_pInstance->m_currentDirContentsMap[path] = dirw.entryInfoList();
+    }
+    else
+    {
+        m_pInstance->m_currentFileContentsMap[path] = file;
     }
 }
 
@@ -41,7 +47,7 @@ void FileSystemWatcher::directoryUpdated(const QString &path)
     qDebug() << QString("Directory updated: %1").arg(path);
 
     // 比较最新的内容和保存的内容找出区别(变化)
-    QFileInfoList currEntryInfoList = m_currentContentsMap[path];
+    QFileInfoList currEntryInfoList = m_currentDirContentsMap[path];
     QFileInfoList newEntryInfoList = QDir(path).entryInfoList();
 
     QSet<QString> currEntrySet;
@@ -83,7 +89,7 @@ void FileSystemWatcher::directoryUpdated(const QString &path)
         }
     }
 
-    m_currentContentsMap[path] = newEntryInfoList;
+    m_currentDirContentsMap[path] = newEntryInfoList;
 }
 
 // 文件修改时调用
@@ -94,4 +100,22 @@ void FileSystemWatcher::fileUpdated(const QString &path)
     QString strName = file.fileName();
 
     qDebug() << QString("The file %1 at path %2 is updated").arg(strName).arg(strPath);
+}
+
+void FileSystemWatcher::timerWatchFile()
+{
+    QMapIterator<QString, QFileInfo> it(m_currentFileContentsMap);
+    while(it.hasNext())
+    {
+        it.next();
+        QString file = it.key();
+        QFileInfo currentFileInfo = it.value();
+        QFileInfo newFileInfo(file);
+        if(currentFileInfo.lastRead() != newFileInfo.lastRead())
+        {
+            qDebug()<<QString("file:%1 has read").arg(file);
+            m_currentFileContentsMap[file] = newFileInfo;
+
+        }
+    }
 }

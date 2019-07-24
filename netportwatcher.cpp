@@ -9,7 +9,6 @@ NetPortWatcher::NetPortWatcher(QObject *parent) : QThread(parent)
 
 void NetPortWatcher::run()
 {
-    qDebug()<<"in1";
 }
 
 void NetPortWatcher::timerWatchNetPort()
@@ -23,9 +22,17 @@ void NetPortWatcher::timerWatchNetPort()
     process.waitForFinished();
     QByteArray output = process.readAllStandardOutput();
 
-    QList<QByteArray> listOutPut = output.split('\n');
-    for(int i = 2; i < listOutPut.size(); ++i)
+    QList<QByteArray> listNetPortData = output.split('\n');
+    for(int i = 2; i < listNetPortData.size(); ++i)
     {
-        qDebug()<<listOutPut.at(i);
+        QString netPortData(listNetPortData.at(i));
+        QStringList listNetPortDataItem = netPortData.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+        if(listNetPortDataItem.size() > 4)
+        {
+            QString protocol = listNetPortDataItem.at(0);
+            QString localAddress = listNetPortDataItem.at(3);
+            QString port = localAddress.mid(localAddress.lastIndexOf(':') + 1);
+            qDebug()<<protocol<<port;
+        }
     }
 }
