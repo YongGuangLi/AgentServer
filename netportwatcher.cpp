@@ -1,15 +1,19 @@
 #include "netportwatcher.h"
 
-NetPortWatcher::NetPortWatcher(QObject *parent) : QThread(parent)
+NetPortWatcher::NetPortWatcher(QObject *parent) : QObject(parent)
 {
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerWatchNetPort()));
-    timer->start(1000);
 }
 
-void NetPortWatcher::run()
+void NetPortWatcher::changeWatchStatus(int status)
 {
+    if(status == 1)
+        timer->start(1000);
+    else
+        timer->stop();
 }
+
 
 void NetPortWatcher::timerWatchNetPort()
 {
@@ -32,7 +36,19 @@ void NetPortWatcher::timerWatchNetPort()
             QString protocol = listNetPortDataItem.at(0);
             QString localAddress = listNetPortDataItem.at(3);
             QString port = localAddress.mid(localAddress.lastIndexOf(':') + 1);
-            qDebug()<<protocol<<port;
+
+            MainMessage mainMessage;
+
+            string strMainMessage;
+            mainMessage.SerializePartialToString(&strMainMessage);
+
+            CollectData *collectData = mainMessage.mutable_collectdata();
+            collectData->set_datatype(CollectDataType::CDT_PORT);
+            collectData->set_devid(SingletonConfig->getDeviceID().toStdString());
+            collectData->set_porttype(protocol.toStdString());
+            collectData->set_portname(port.toStdString());
+
+            emit signal_MainMessage(strMainMessage);
         }
     }
 }

@@ -21,6 +21,16 @@ ConfigHelper::~ConfigHelper()
 {
 }
 
+QString ConfigHelper::getDeviceID() const
+{
+    return deviceID_;
+}
+
+void ConfigHelper::setDeviceID(const QString &deviceID)
+{
+    deviceID_ = deviceID;
+}
+
 QString ConfigHelper::getIpRedis() const
 {
     return ipRedis_;

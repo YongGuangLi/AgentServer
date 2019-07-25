@@ -1,14 +1,17 @@
 #include "processwatcher.h"
 
-ProcessWatcher::ProcessWatcher(QObject *parent) : QThread(parent)
+ProcessWatcher::ProcessWatcher(QObject *parent) : QObject(parent)
 {
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timerWatchProcess()));
-    timer->start(1000);
 }
 
-void ProcessWatcher::run()
+void ProcessWatcher::changeWatchStatus(int status)
 {
+    if(status == 1)
+        timer->start(1000);
+    else
+        timer->stop();
 }
 
 void ProcessWatcher::timerWatchProcess()
@@ -28,6 +31,21 @@ void ProcessWatcher::timerWatchProcess()
         QString processData(listProcessData.at(i));
         QStringList listProcessDataItem = processData.split(QRegExp("\\s+"), QString::SkipEmptyParts);
         if(listProcessDataItem.size() > 3)
-            qDebug()<<listProcessDataItem.at(0)<<listProcessDataItem.at(3);
+        {
+            QString pid = listProcessDataItem.at(0);
+            QString procName = listProcessDataItem.at(3);
+            MainMessage mainMessage;
+
+            string strMainMessage;
+            mainMessage.SerializePartialToString(&strMainMessage);
+
+            CollectData *collectData = mainMessage.mutable_collectdata();
+            collectData->set_datatype(CollectDataType::CDT_PROC);
+            collectData->set_devid(SingletonConfig->getDeviceID().toStdString());
+            collectData->set_pid(pid.toStdString());
+            collectData->set_procname(procName.toStdString());
+
+            emit signal_MainMessage(strMainMessage);
+        }
     }
 }

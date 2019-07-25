@@ -19,7 +19,7 @@
 
 using namespace std;
 
-#define REDIS_CHANNEL "channel"
+#define REDIS_CHANNEL "MonitorServer"
 
 
 class RedisHelper {
@@ -46,6 +46,8 @@ public:
 
     //调用此函数,必须已有channel被订阅，  获取指定channel的消息，不传则获取所有已订阅的消息
     bool getMessage(string& message, string channel = "");
+
+    int getMessage(char *&message, string channel = "");
 
     const char* getLocalIp();
 private:

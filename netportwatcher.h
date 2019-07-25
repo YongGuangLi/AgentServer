@@ -5,21 +5,32 @@
 #include <QThread>
 #include <QDebug>
 #include <QTimer>
+#include <QString>
 #include <QProcess>
+#include "ServerMonitor.pb.h"
+#include "confighelper.h"
+#include <string>
 
-class NetPortWatcher : public QThread
+
+using namespace std;
+
+class NetPortWatcher : public QObject
 {
     Q_OBJECT
 public:
     explicit NetPortWatcher(QObject *parent = 0);
 
+    void changeWatchStatus(int status);
 protected:
-    void run();
 
 signals:
+    void signal_MainMessage(string);
 
 public slots:
     void timerWatchNetPort();
+
+private:
+     QTimer *timer;
 };
 
 #endif // NETPORTWATCHER_H

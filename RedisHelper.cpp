@@ -166,24 +166,47 @@ int RedisHelper::unsubscribe(string channel)
     return result;
 }
 
+bool RedisHelper::getMessage(string &message, string channel)
+{
+    acl::string acl_channel;
+    acl::string acl_msg;
 
-bool RedisHelper::getMessage(string& message, string channel)
+    redis_sub_.clear();
+    bool result = redis_sub_.get_message(acl_channel, acl_msg);
+    if(result == true && channel.empty())
+    {
+        message = acl_msg;
+        //printf("get one message: %s, channel: %s\r\n",acl_msg.c_str(), acl_channel.c_str());
+    }
+    else if( result == true && strcmp(channel.c_str(), acl_channel.c_str()) == 0)
+    {
+        message = acl_msg;
+    }
+    return result;
+}
+
+
+int RedisHelper::getMessage(char *&message, string channel)
 {
 	acl::string acl_channel;
 	acl::string acl_msg;
+    int msg_len = 0;
 
 	redis_sub_.clear();
 	bool result = redis_sub_.get_message(acl_channel, acl_msg);
 	if(result == true && channel.empty())
 	{
-		message = acl_msg.c_str();
+        //message = acl_msg.c_str();
+        msg_len = acl_msg.length();
+        message = (char *) malloc(msg_len + 1);
+        memcpy(message, acl_msg.c_str(), msg_len);
         //printf("get one message: %s, channel: %s\r\n",acl_msg.c_str(), acl_channel.c_str());
 	}
 	else if( result == true && strcmp(channel.c_str(), acl_channel.c_str()) == 0)
 	{
 		message = acl_msg.c_str();
 	}
-    return result;
+    return msg_len;
 }
 
 const char *RedisHelper::getLocalIp()

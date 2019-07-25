@@ -51,6 +51,9 @@ extern MysqlOperDataDefaultTypeInternal _MysqlOperData_default_instance_;
 class MysqlOperUnit;
 class MysqlOperUnitDefaultTypeInternal;
 extern MysqlOperUnitDefaultTypeInternal _MysqlOperUnit_default_instance_;
+class ParamModify;
+class ParamModifyDefaultTypeInternal;
+extern ParamModifyDefaultTypeInternal _ParamModify_default_instance_;
 
 namespace protobuf_ServerMonitor_2eproto {
 // Internal implementation detail -- do not call these.
@@ -65,6 +68,31 @@ struct TableStruct {
 void AddDescriptors();
 void InitDefaults();
 }  // namespace protobuf_ServerMonitor_2eproto
+
+enum ParamModifyType {
+  PMT_INVALID = 0,
+  PMT_PATH = 1,
+  PMT_FUNC = 2,
+  ParamModifyType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ParamModifyType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ParamModifyType_IsValid(int value);
+const ParamModifyType ParamModifyType_MIN = PMT_INVALID;
+const ParamModifyType ParamModifyType_MAX = PMT_FUNC;
+const int ParamModifyType_ARRAYSIZE = ParamModifyType_MAX + 1;
+
+enum CollectDataType {
+  CDT_INVALID = 0,
+  CDT_FILE = 1,
+  CDT_PROC = 2,
+  CDT_PORT = 3,
+  CollectDataType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  CollectDataType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool CollectDataType_IsValid(int value);
+const CollectDataType CollectDataType_MIN = CDT_INVALID;
+const CollectDataType CollectDataType_MAX = CDT_PORT;
+const int CollectDataType_ARRAYSIZE = CollectDataType_MAX + 1;
 
 enum AgentCtrlType {
   ACT_INVALID = 0,
@@ -97,12 +125,13 @@ enum MessageType {
   MT_MysqlOperData = 3,
   MT_Insert_SystemLog = 4,
   MT_AgentCtrl = 5,
+  MT_ParamModify = 6,
   MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool MessageType_IsValid(int value);
 const MessageType MessageType_MIN = MT_INVALID;
-const MessageType MessageType_MAX = MT_AgentCtrl;
+const MessageType MessageType_MAX = MT_ParamModify;
 const int MessageType_ARRAYSIZE = MessageType_MAX + 1;
 
 // ===================================================================
@@ -197,25 +226,141 @@ class HeartBeatMessage : public ::google::protobuf::MessageLite /* @@protoc_inse
   ::std::string* release_devid();
   void set_allocated_devid(::std::string* devid);
 
-  // string monitorPath = 4;
-  void clear_monitorpath();
-  static const int kMonitorPathFieldNumber = 4;
-  const ::std::string& monitorpath() const;
-  void set_monitorpath(const ::std::string& value);
-  #if LANG_CXX11
-  void set_monitorpath(::std::string&& value);
-  #endif
-  void set_monitorpath(const char* value);
-  void set_monitorpath(const char* value, size_t size);
-  ::std::string* mutable_monitorpath();
-  ::std::string* release_monitorpath();
-  void set_allocated_monitorpath(::std::string* monitorpath);
-
   // int32 time = 2;
   void clear_time();
   static const int kTimeFieldNumber = 2;
   ::google::protobuf::int32 time() const;
   void set_time(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:HeartBeatMessage)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr ipaddr_;
+  ::google::protobuf::internal::ArenaStringPtr devid_;
+  ::google::protobuf::int32 time_;
+  mutable int _cached_size_;
+  friend struct protobuf_ServerMonitor_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ParamModify : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:ParamModify) */ {
+ public:
+  ParamModify();
+  virtual ~ParamModify();
+
+  ParamModify(const ParamModify& from);
+
+  inline ParamModify& operator=(const ParamModify& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ParamModify& default_instance();
+
+  static inline const ParamModify* internal_default_instance() {
+    return reinterpret_cast<const ParamModify*>(
+               &_ParamModify_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    1;
+
+  void Swap(ParamModify* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ParamModify* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  ParamModify* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    PROTOBUF_FINAL;
+  void CopyFrom(const ParamModify& from);
+  void MergeFrom(const ParamModify& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  void DiscardUnknownFields();
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ParamModify* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated string monitorPath = 4;
+  int monitorpath_size() const;
+  void clear_monitorpath();
+  static const int kMonitorPathFieldNumber = 4;
+  const ::std::string& monitorpath(int index) const;
+  ::std::string* mutable_monitorpath(int index);
+  void set_monitorpath(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_monitorpath(int index, ::std::string&& value);
+  #endif
+  void set_monitorpath(int index, const char* value);
+  void set_monitorpath(int index, const char* value, size_t size);
+  ::std::string* add_monitorpath();
+  void add_monitorpath(const ::std::string& value);
+  #if LANG_CXX11
+  void add_monitorpath(::std::string&& value);
+  #endif
+  void add_monitorpath(const char* value);
+  void add_monitorpath(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& monitorpath() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_monitorpath();
+
+  // string ipAddr = 2;
+  void clear_ipaddr();
+  static const int kIpAddrFieldNumber = 2;
+  const ::std::string& ipaddr() const;
+  void set_ipaddr(const ::std::string& value);
+  #if LANG_CXX11
+  void set_ipaddr(::std::string&& value);
+  #endif
+  void set_ipaddr(const char* value);
+  void set_ipaddr(const char* value, size_t size);
+  ::std::string* mutable_ipaddr();
+  ::std::string* release_ipaddr();
+  void set_allocated_ipaddr(::std::string* ipaddr);
+
+  // string devId = 3;
+  void clear_devid();
+  static const int kDevIdFieldNumber = 3;
+  const ::std::string& devid() const;
+  void set_devid(const ::std::string& value);
+  #if LANG_CXX11
+  void set_devid(::std::string&& value);
+  #endif
+  void set_devid(const char* value);
+  void set_devid(const char* value, size_t size);
+  ::std::string* mutable_devid();
+  ::std::string* release_devid();
+  void set_allocated_devid(::std::string* devid);
+
+  // .ParamModifyType type = 1;
+  void clear_type();
+  static const int kTypeFieldNumber = 1;
+  ::ParamModifyType type() const;
+  void set_type(::ParamModifyType value);
 
   // int32 func_file = 5;
   void clear_func_file();
@@ -235,14 +380,14 @@ class HeartBeatMessage : public ::google::protobuf::MessageLite /* @@protoc_inse
   ::google::protobuf::int32 func_port() const;
   void set_func_port(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:HeartBeatMessage)
+  // @@protoc_insertion_point(class_scope:ParamModify)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> monitorpath_;
   ::google::protobuf::internal::ArenaStringPtr ipaddr_;
   ::google::protobuf::internal::ArenaStringPtr devid_;
-  ::google::protobuf::internal::ArenaStringPtr monitorpath_;
-  ::google::protobuf::int32 time_;
+  int type_;
   ::google::protobuf::int32 func_file_;
   ::google::protobuf::int32 func_process_;
   ::google::protobuf::int32 func_port_;
@@ -270,7 +415,7 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
                &_CollectData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(CollectData* other);
 
@@ -313,9 +458,9 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // string devId = 1;
+  // string devId = 2;
   void clear_devid();
-  static const int kDevIdFieldNumber = 1;
+  static const int kDevIdFieldNumber = 2;
   const ::std::string& devid() const;
   void set_devid(const ::std::string& value);
   #if LANG_CXX11
@@ -327,9 +472,9 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::std::string* release_devid();
   void set_allocated_devid(::std::string* devid);
 
-  // string filePath = 2;
+  // string filePath = 3;
   void clear_filepath();
-  static const int kFilePathFieldNumber = 2;
+  static const int kFilePathFieldNumber = 3;
   const ::std::string& filepath() const;
   void set_filepath(const ::std::string& value);
   #if LANG_CXX11
@@ -341,9 +486,9 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::std::string* release_filepath();
   void set_allocated_filepath(::std::string* filepath);
 
-  // string state = 3;
+  // string state = 4;
   void clear_state();
-  static const int kStateFieldNumber = 3;
+  static const int kStateFieldNumber = 4;
   const ::std::string& state() const;
   void set_state(const ::std::string& value);
   #if LANG_CXX11
@@ -355,9 +500,9 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::std::string* release_state();
   void set_allocated_state(::std::string* state);
 
-  // string time = 4;
+  // string time = 5;
   void clear_time();
-  static const int kTimeFieldNumber = 4;
+  static const int kTimeFieldNumber = 5;
   const ::std::string& time() const;
   void set_time(const ::std::string& value);
   #if LANG_CXX11
@@ -369,6 +514,68 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::std::string* release_time();
   void set_allocated_time(::std::string* time);
 
+  // string pid = 6;
+  void clear_pid();
+  static const int kPidFieldNumber = 6;
+  const ::std::string& pid() const;
+  void set_pid(const ::std::string& value);
+  #if LANG_CXX11
+  void set_pid(::std::string&& value);
+  #endif
+  void set_pid(const char* value);
+  void set_pid(const char* value, size_t size);
+  ::std::string* mutable_pid();
+  ::std::string* release_pid();
+  void set_allocated_pid(::std::string* pid);
+
+  // string procName = 7;
+  void clear_procname();
+  static const int kProcNameFieldNumber = 7;
+  const ::std::string& procname() const;
+  void set_procname(const ::std::string& value);
+  #if LANG_CXX11
+  void set_procname(::std::string&& value);
+  #endif
+  void set_procname(const char* value);
+  void set_procname(const char* value, size_t size);
+  ::std::string* mutable_procname();
+  ::std::string* release_procname();
+  void set_allocated_procname(::std::string* procname);
+
+  // string portType = 8;
+  void clear_porttype();
+  static const int kPortTypeFieldNumber = 8;
+  const ::std::string& porttype() const;
+  void set_porttype(const ::std::string& value);
+  #if LANG_CXX11
+  void set_porttype(::std::string&& value);
+  #endif
+  void set_porttype(const char* value);
+  void set_porttype(const char* value, size_t size);
+  ::std::string* mutable_porttype();
+  ::std::string* release_porttype();
+  void set_allocated_porttype(::std::string* porttype);
+
+  // string portName = 9;
+  void clear_portname();
+  static const int kPortNameFieldNumber = 9;
+  const ::std::string& portname() const;
+  void set_portname(const ::std::string& value);
+  #if LANG_CXX11
+  void set_portname(::std::string&& value);
+  #endif
+  void set_portname(const char* value);
+  void set_portname(const char* value, size_t size);
+  ::std::string* mutable_portname();
+  ::std::string* release_portname();
+  void set_allocated_portname(::std::string* portname);
+
+  // .CollectDataType dataType = 1;
+  void clear_datatype();
+  static const int kDataTypeFieldNumber = 1;
+  ::CollectDataType datatype() const;
+  void set_datatype(::CollectDataType value);
+
   // @@protoc_insertion_point(class_scope:CollectData)
  private:
 
@@ -377,6 +584,11 @@ class CollectData : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::google::protobuf::internal::ArenaStringPtr filepath_;
   ::google::protobuf::internal::ArenaStringPtr state_;
   ::google::protobuf::internal::ArenaStringPtr time_;
+  ::google::protobuf::internal::ArenaStringPtr pid_;
+  ::google::protobuf::internal::ArenaStringPtr procname_;
+  ::google::protobuf::internal::ArenaStringPtr porttype_;
+  ::google::protobuf::internal::ArenaStringPtr portname_;
+  int datatype_;
   mutable int _cached_size_;
   friend struct protobuf_ServerMonitor_2eproto::TableStruct;
 };
@@ -401,7 +613,7 @@ class AgentCtrl : public ::google::protobuf::MessageLite /* @@protoc_insertion_p
                &_AgentCtrl_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(AgentCtrl* other);
 
@@ -494,7 +706,7 @@ class MysqlOperUnit : public ::google::protobuf::MessageLite /* @@protoc_inserti
                &_MysqlOperUnit_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(MysqlOperUnit* other);
 
@@ -647,7 +859,7 @@ class MysqlOperData : public ::google::protobuf::MessageLite /* @@protoc_inserti
                &_MysqlOperData_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(MysqlOperData* other);
 
@@ -806,7 +1018,7 @@ class Insert_SystemLog : public ::google::protobuf::MessageLite /* @@protoc_inse
                &_Insert_SystemLog_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(Insert_SystemLog* other);
 
@@ -899,7 +1111,7 @@ class MainMessage : public ::google::protobuf::MessageLite /* @@protoc_insertion
                &_MainMessage_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(MainMessage* other);
 
@@ -987,6 +1199,15 @@ class MainMessage : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::AgentCtrl* release_agentctrl();
   void set_allocated_agentctrl(::AgentCtrl* agentctrl);
 
+  // .ParamModify paramModify = 7;
+  bool has_parammodify() const;
+  void clear_parammodify();
+  static const int kParamModifyFieldNumber = 7;
+  const ::ParamModify& parammodify() const;
+  ::ParamModify* mutable_parammodify();
+  ::ParamModify* release_parammodify();
+  void set_allocated_parammodify(::ParamModify* parammodify);
+
   // .MessageType msgType = 1;
   void clear_msgtype();
   static const int kMsgTypeFieldNumber = 1;
@@ -1002,6 +1223,7 @@ class MainMessage : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::MysqlOperData* mysqloperdata_;
   ::Insert_SystemLog* insert_systemlog_;
   ::AgentCtrl* agentctrl_;
+  ::ParamModify* parammodify_;
   int msgtype_;
   mutable int _cached_size_;
   friend struct protobuf_ServerMonitor_2eproto::TableStruct;
@@ -1134,106 +1356,260 @@ inline void HeartBeatMessage::set_allocated_devid(::std::string* devid) {
   // @@protoc_insertion_point(field_set_allocated:HeartBeatMessage.devId)
 }
 
-// string monitorPath = 4;
-inline void HeartBeatMessage::clear_monitorpath() {
-  monitorpath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// -------------------------------------------------------------------
+
+// ParamModify
+
+// .ParamModifyType type = 1;
+inline void ParamModify::clear_type() {
+  type_ = 0;
 }
-inline const ::std::string& HeartBeatMessage::monitorpath() const {
-  // @@protoc_insertion_point(field_get:HeartBeatMessage.monitorPath)
-  return monitorpath_.GetNoArena();
+inline ::ParamModifyType ParamModify::type() const {
+  // @@protoc_insertion_point(field_get:ParamModify.type)
+  return static_cast< ::ParamModifyType >(type_);
 }
-inline void HeartBeatMessage::set_monitorpath(const ::std::string& value) {
+inline void ParamModify::set_type(::ParamModifyType value) {
   
-  monitorpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:HeartBeatMessage.monitorPath)
+  type_ = value;
+  // @@protoc_insertion_point(field_set:ParamModify.type)
+}
+
+// string ipAddr = 2;
+inline void ParamModify::clear_ipaddr() {
+  ipaddr_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ParamModify::ipaddr() const {
+  // @@protoc_insertion_point(field_get:ParamModify.ipAddr)
+  return ipaddr_.GetNoArena();
+}
+inline void ParamModify::set_ipaddr(const ::std::string& value) {
+  
+  ipaddr_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:ParamModify.ipAddr)
 }
 #if LANG_CXX11
-inline void HeartBeatMessage::set_monitorpath(::std::string&& value) {
+inline void ParamModify::set_ipaddr(::std::string&& value) {
   
-  monitorpath_.SetNoArena(
+  ipaddr_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:HeartBeatMessage.monitorPath)
+  // @@protoc_insertion_point(field_set_rvalue:ParamModify.ipAddr)
 }
 #endif
-inline void HeartBeatMessage::set_monitorpath(const char* value) {
+inline void ParamModify::set_ipaddr(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  monitorpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:HeartBeatMessage.monitorPath)
+  ipaddr_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ParamModify.ipAddr)
 }
-inline void HeartBeatMessage::set_monitorpath(const char* value, size_t size) {
+inline void ParamModify::set_ipaddr(const char* value, size_t size) {
   
-  monitorpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  ipaddr_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:HeartBeatMessage.monitorPath)
+  // @@protoc_insertion_point(field_set_pointer:ParamModify.ipAddr)
 }
-inline ::std::string* HeartBeatMessage::mutable_monitorpath() {
+inline ::std::string* ParamModify::mutable_ipaddr() {
   
-  // @@protoc_insertion_point(field_mutable:HeartBeatMessage.monitorPath)
-  return monitorpath_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:ParamModify.ipAddr)
+  return ipaddr_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* HeartBeatMessage::release_monitorpath() {
-  // @@protoc_insertion_point(field_release:HeartBeatMessage.monitorPath)
+inline ::std::string* ParamModify::release_ipaddr() {
+  // @@protoc_insertion_point(field_release:ParamModify.ipAddr)
   
-  return monitorpath_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return ipaddr_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void HeartBeatMessage::set_allocated_monitorpath(::std::string* monitorpath) {
-  if (monitorpath != NULL) {
+inline void ParamModify::set_allocated_ipaddr(::std::string* ipaddr) {
+  if (ipaddr != NULL) {
     
   } else {
     
   }
-  monitorpath_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), monitorpath);
-  // @@protoc_insertion_point(field_set_allocated:HeartBeatMessage.monitorPath)
+  ipaddr_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ipaddr);
+  // @@protoc_insertion_point(field_set_allocated:ParamModify.ipAddr)
+}
+
+// string devId = 3;
+inline void ParamModify::clear_devid() {
+  devid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ParamModify::devid() const {
+  // @@protoc_insertion_point(field_get:ParamModify.devId)
+  return devid_.GetNoArena();
+}
+inline void ParamModify::set_devid(const ::std::string& value) {
+  
+  devid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:ParamModify.devId)
+}
+#if LANG_CXX11
+inline void ParamModify::set_devid(::std::string&& value) {
+  
+  devid_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ParamModify.devId)
+}
+#endif
+inline void ParamModify::set_devid(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  devid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ParamModify.devId)
+}
+inline void ParamModify::set_devid(const char* value, size_t size) {
+  
+  devid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ParamModify.devId)
+}
+inline ::std::string* ParamModify::mutable_devid() {
+  
+  // @@protoc_insertion_point(field_mutable:ParamModify.devId)
+  return devid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ParamModify::release_devid() {
+  // @@protoc_insertion_point(field_release:ParamModify.devId)
+  
+  return devid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ParamModify::set_allocated_devid(::std::string* devid) {
+  if (devid != NULL) {
+    
+  } else {
+    
+  }
+  devid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), devid);
+  // @@protoc_insertion_point(field_set_allocated:ParamModify.devId)
+}
+
+// repeated string monitorPath = 4;
+inline int ParamModify::monitorpath_size() const {
+  return monitorpath_.size();
+}
+inline void ParamModify::clear_monitorpath() {
+  monitorpath_.Clear();
+}
+inline const ::std::string& ParamModify::monitorpath(int index) const {
+  // @@protoc_insertion_point(field_get:ParamModify.monitorPath)
+  return monitorpath_.Get(index);
+}
+inline ::std::string* ParamModify::mutable_monitorpath(int index) {
+  // @@protoc_insertion_point(field_mutable:ParamModify.monitorPath)
+  return monitorpath_.Mutable(index);
+}
+inline void ParamModify::set_monitorpath(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:ParamModify.monitorPath)
+  monitorpath_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void ParamModify::set_monitorpath(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:ParamModify.monitorPath)
+  monitorpath_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void ParamModify::set_monitorpath(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  monitorpath_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ParamModify.monitorPath)
+}
+inline void ParamModify::set_monitorpath(int index, const char* value, size_t size) {
+  monitorpath_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ParamModify.monitorPath)
+}
+inline ::std::string* ParamModify::add_monitorpath() {
+  // @@protoc_insertion_point(field_add_mutable:ParamModify.monitorPath)
+  return monitorpath_.Add();
+}
+inline void ParamModify::add_monitorpath(const ::std::string& value) {
+  monitorpath_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ParamModify.monitorPath)
+}
+#if LANG_CXX11
+inline void ParamModify::add_monitorpath(::std::string&& value) {
+  monitorpath_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ParamModify.monitorPath)
+}
+#endif
+inline void ParamModify::add_monitorpath(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  monitorpath_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ParamModify.monitorPath)
+}
+inline void ParamModify::add_monitorpath(const char* value, size_t size) {
+  monitorpath_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ParamModify.monitorPath)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+ParamModify::monitorpath() const {
+  // @@protoc_insertion_point(field_list:ParamModify.monitorPath)
+  return monitorpath_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+ParamModify::mutable_monitorpath() {
+  // @@protoc_insertion_point(field_mutable_list:ParamModify.monitorPath)
+  return &monitorpath_;
 }
 
 // int32 func_file = 5;
-inline void HeartBeatMessage::clear_func_file() {
+inline void ParamModify::clear_func_file() {
   func_file_ = 0;
 }
-inline ::google::protobuf::int32 HeartBeatMessage::func_file() const {
-  // @@protoc_insertion_point(field_get:HeartBeatMessage.func_file)
+inline ::google::protobuf::int32 ParamModify::func_file() const {
+  // @@protoc_insertion_point(field_get:ParamModify.func_file)
   return func_file_;
 }
-inline void HeartBeatMessage::set_func_file(::google::protobuf::int32 value) {
+inline void ParamModify::set_func_file(::google::protobuf::int32 value) {
   
   func_file_ = value;
-  // @@protoc_insertion_point(field_set:HeartBeatMessage.func_file)
+  // @@protoc_insertion_point(field_set:ParamModify.func_file)
 }
 
 // int32 func_process = 6;
-inline void HeartBeatMessage::clear_func_process() {
+inline void ParamModify::clear_func_process() {
   func_process_ = 0;
 }
-inline ::google::protobuf::int32 HeartBeatMessage::func_process() const {
-  // @@protoc_insertion_point(field_get:HeartBeatMessage.func_process)
+inline ::google::protobuf::int32 ParamModify::func_process() const {
+  // @@protoc_insertion_point(field_get:ParamModify.func_process)
   return func_process_;
 }
-inline void HeartBeatMessage::set_func_process(::google::protobuf::int32 value) {
+inline void ParamModify::set_func_process(::google::protobuf::int32 value) {
   
   func_process_ = value;
-  // @@protoc_insertion_point(field_set:HeartBeatMessage.func_process)
+  // @@protoc_insertion_point(field_set:ParamModify.func_process)
 }
 
 // int32 func_port = 7;
-inline void HeartBeatMessage::clear_func_port() {
+inline void ParamModify::clear_func_port() {
   func_port_ = 0;
 }
-inline ::google::protobuf::int32 HeartBeatMessage::func_port() const {
-  // @@protoc_insertion_point(field_get:HeartBeatMessage.func_port)
+inline ::google::protobuf::int32 ParamModify::func_port() const {
+  // @@protoc_insertion_point(field_get:ParamModify.func_port)
   return func_port_;
 }
-inline void HeartBeatMessage::set_func_port(::google::protobuf::int32 value) {
+inline void ParamModify::set_func_port(::google::protobuf::int32 value) {
   
   func_port_ = value;
-  // @@protoc_insertion_point(field_set:HeartBeatMessage.func_port)
+  // @@protoc_insertion_point(field_set:ParamModify.func_port)
 }
 
 // -------------------------------------------------------------------
 
 // CollectData
 
-// string devId = 1;
+// .CollectDataType dataType = 1;
+inline void CollectData::clear_datatype() {
+  datatype_ = 0;
+}
+inline ::CollectDataType CollectData::datatype() const {
+  // @@protoc_insertion_point(field_get:CollectData.dataType)
+  return static_cast< ::CollectDataType >(datatype_);
+}
+inline void CollectData::set_datatype(::CollectDataType value) {
+  
+  datatype_ = value;
+  // @@protoc_insertion_point(field_set:CollectData.dataType)
+}
+
+// string devId = 2;
 inline void CollectData::clear_devid() {
   devid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1286,7 +1662,7 @@ inline void CollectData::set_allocated_devid(::std::string* devid) {
   // @@protoc_insertion_point(field_set_allocated:CollectData.devId)
 }
 
-// string filePath = 2;
+// string filePath = 3;
 inline void CollectData::clear_filepath() {
   filepath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1339,7 +1715,7 @@ inline void CollectData::set_allocated_filepath(::std::string* filepath) {
   // @@protoc_insertion_point(field_set_allocated:CollectData.filePath)
 }
 
-// string state = 3;
+// string state = 4;
 inline void CollectData::clear_state() {
   state_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1392,7 +1768,7 @@ inline void CollectData::set_allocated_state(::std::string* state) {
   // @@protoc_insertion_point(field_set_allocated:CollectData.state)
 }
 
-// string time = 4;
+// string time = 5;
 inline void CollectData::clear_time() {
   time_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1443,6 +1819,218 @@ inline void CollectData::set_allocated_time(::std::string* time) {
   }
   time_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), time);
   // @@protoc_insertion_point(field_set_allocated:CollectData.time)
+}
+
+// string pid = 6;
+inline void CollectData::clear_pid() {
+  pid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CollectData::pid() const {
+  // @@protoc_insertion_point(field_get:CollectData.pid)
+  return pid_.GetNoArena();
+}
+inline void CollectData::set_pid(const ::std::string& value) {
+  
+  pid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:CollectData.pid)
+}
+#if LANG_CXX11
+inline void CollectData::set_pid(::std::string&& value) {
+  
+  pid_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:CollectData.pid)
+}
+#endif
+inline void CollectData::set_pid(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  pid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:CollectData.pid)
+}
+inline void CollectData::set_pid(const char* value, size_t size) {
+  
+  pid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:CollectData.pid)
+}
+inline ::std::string* CollectData::mutable_pid() {
+  
+  // @@protoc_insertion_point(field_mutable:CollectData.pid)
+  return pid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CollectData::release_pid() {
+  // @@protoc_insertion_point(field_release:CollectData.pid)
+  
+  return pid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CollectData::set_allocated_pid(::std::string* pid) {
+  if (pid != NULL) {
+    
+  } else {
+    
+  }
+  pid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), pid);
+  // @@protoc_insertion_point(field_set_allocated:CollectData.pid)
+}
+
+// string procName = 7;
+inline void CollectData::clear_procname() {
+  procname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CollectData::procname() const {
+  // @@protoc_insertion_point(field_get:CollectData.procName)
+  return procname_.GetNoArena();
+}
+inline void CollectData::set_procname(const ::std::string& value) {
+  
+  procname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:CollectData.procName)
+}
+#if LANG_CXX11
+inline void CollectData::set_procname(::std::string&& value) {
+  
+  procname_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:CollectData.procName)
+}
+#endif
+inline void CollectData::set_procname(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  procname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:CollectData.procName)
+}
+inline void CollectData::set_procname(const char* value, size_t size) {
+  
+  procname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:CollectData.procName)
+}
+inline ::std::string* CollectData::mutable_procname() {
+  
+  // @@protoc_insertion_point(field_mutable:CollectData.procName)
+  return procname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CollectData::release_procname() {
+  // @@protoc_insertion_point(field_release:CollectData.procName)
+  
+  return procname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CollectData::set_allocated_procname(::std::string* procname) {
+  if (procname != NULL) {
+    
+  } else {
+    
+  }
+  procname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), procname);
+  // @@protoc_insertion_point(field_set_allocated:CollectData.procName)
+}
+
+// string portType = 8;
+inline void CollectData::clear_porttype() {
+  porttype_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CollectData::porttype() const {
+  // @@protoc_insertion_point(field_get:CollectData.portType)
+  return porttype_.GetNoArena();
+}
+inline void CollectData::set_porttype(const ::std::string& value) {
+  
+  porttype_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:CollectData.portType)
+}
+#if LANG_CXX11
+inline void CollectData::set_porttype(::std::string&& value) {
+  
+  porttype_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:CollectData.portType)
+}
+#endif
+inline void CollectData::set_porttype(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  porttype_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:CollectData.portType)
+}
+inline void CollectData::set_porttype(const char* value, size_t size) {
+  
+  porttype_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:CollectData.portType)
+}
+inline ::std::string* CollectData::mutable_porttype() {
+  
+  // @@protoc_insertion_point(field_mutable:CollectData.portType)
+  return porttype_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CollectData::release_porttype() {
+  // @@protoc_insertion_point(field_release:CollectData.portType)
+  
+  return porttype_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CollectData::set_allocated_porttype(::std::string* porttype) {
+  if (porttype != NULL) {
+    
+  } else {
+    
+  }
+  porttype_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), porttype);
+  // @@protoc_insertion_point(field_set_allocated:CollectData.portType)
+}
+
+// string portName = 9;
+inline void CollectData::clear_portname() {
+  portname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CollectData::portname() const {
+  // @@protoc_insertion_point(field_get:CollectData.portName)
+  return portname_.GetNoArena();
+}
+inline void CollectData::set_portname(const ::std::string& value) {
+  
+  portname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:CollectData.portName)
+}
+#if LANG_CXX11
+inline void CollectData::set_portname(::std::string&& value) {
+  
+  portname_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:CollectData.portName)
+}
+#endif
+inline void CollectData::set_portname(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  portname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:CollectData.portName)
+}
+inline void CollectData::set_portname(const char* value, size_t size) {
+  
+  portname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:CollectData.portName)
+}
+inline ::std::string* CollectData::mutable_portname() {
+  
+  // @@protoc_insertion_point(field_mutable:CollectData.portName)
+  return portname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CollectData::release_portname() {
+  // @@protoc_insertion_point(field_release:CollectData.portName)
+  
+  return portname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CollectData::set_allocated_portname(::std::string* portname) {
+  if (portname != NULL) {
+    
+  } else {
+    
+  }
+  portname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), portname);
+  // @@protoc_insertion_point(field_set_allocated:CollectData.portName)
 }
 
 // -------------------------------------------------------------------
@@ -2359,7 +2947,48 @@ inline void MainMessage::set_allocated_agentctrl(::AgentCtrl* agentctrl) {
   // @@protoc_insertion_point(field_set_allocated:MainMessage.agentCtrl)
 }
 
+// .ParamModify paramModify = 7;
+inline bool MainMessage::has_parammodify() const {
+  return this != internal_default_instance() && parammodify_ != NULL;
+}
+inline void MainMessage::clear_parammodify() {
+  if (GetArenaNoVirtual() == NULL && parammodify_ != NULL) delete parammodify_;
+  parammodify_ = NULL;
+}
+inline const ::ParamModify& MainMessage::parammodify() const {
+  // @@protoc_insertion_point(field_get:MainMessage.paramModify)
+  return parammodify_ != NULL ? *parammodify_
+                         : *::ParamModify::internal_default_instance();
+}
+inline ::ParamModify* MainMessage::mutable_parammodify() {
+  
+  if (parammodify_ == NULL) {
+    parammodify_ = new ::ParamModify;
+  }
+  // @@protoc_insertion_point(field_mutable:MainMessage.paramModify)
+  return parammodify_;
+}
+inline ::ParamModify* MainMessage::release_parammodify() {
+  // @@protoc_insertion_point(field_release:MainMessage.paramModify)
+  
+  ::ParamModify* temp = parammodify_;
+  parammodify_ = NULL;
+  return temp;
+}
+inline void MainMessage::set_allocated_parammodify(::ParamModify* parammodify) {
+  delete parammodify_;
+  parammodify_ = parammodify;
+  if (parammodify) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:MainMessage.paramModify)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -2380,6 +3009,8 @@ inline void MainMessage::set_allocated_agentctrl(::AgentCtrl* agentctrl) {
 namespace google {
 namespace protobuf {
 
+template <> struct is_proto_enum< ::ParamModifyType> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::CollectDataType> : ::google::protobuf::internal::true_type {};
 template <> struct is_proto_enum< ::AgentCtrlType> : ::google::protobuf::internal::true_type {};
 template <> struct is_proto_enum< ::MysqlOperType> : ::google::protobuf::internal::true_type {};
 template <> struct is_proto_enum< ::MessageType> : ::google::protobuf::internal::true_type {};

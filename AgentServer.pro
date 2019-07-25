@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     RedisHelper.cpp \
     ServerMonitor.pb.cc \
     confighelper.cpp \
-    message_handler.cpp
+    message_handler.cpp \
+    agentserver.cpp \
+    rsacryptography.cpp
 
 HEADERS += \
     filesystemwatcher.h \
@@ -25,7 +27,9 @@ HEADERS += \
     RedisHelper.h \
     ServerMonitor.pb.h \
     confighelper.h \
-    message_handler.h
+    message_handler.h \
+    agentserver.h \
+    rsacryptography.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libacl/lib/release/ -lacl_cpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libacl/lib/debug/ -lacl_cpp
@@ -67,3 +71,6 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/protobuf-3.
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/protobuf-3.3.0/lib/release/protobuf-lite.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/protobuf-3.3.0/lib/debug/protobuf-lite.lib
 else:unix: PRE_TARGETDEPS += $$PWD/protobuf-3.3.0/lib/libprotobuf-lite.a
+
+LIBS += -lssl
+

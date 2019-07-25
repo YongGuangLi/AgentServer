@@ -27,6 +27,9 @@ public:
     QString getPasswdRedis() const;
 
 
+    QString getDeviceID() const;
+    void setDeviceID(const QString &deviceID);
+
 private:
     explicit ConfigHelper(QObject *parent = 0);
     ~ConfigHelper();
@@ -36,6 +39,8 @@ private:
     QString ipRedis_;
     int portRedis;
     QString passwdRedis_;
+
+    QString deviceID_;
 };
 
 #endif // ConfigHelper_H
